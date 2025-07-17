@@ -1,7 +1,6 @@
-require('dotenv').config();
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGO_URI, { useNewUrlParser: true, useUnifiedTopology: true });
+mongoose.connect(process.env.MONGO_URI="mongodb+srv://dkb096:scorpion100!@dbcluster.y4fasx2.mongodb.net/myapp?retryWrites=true&w=majority&appName=DBCluster");
 
 
 
@@ -30,14 +29,8 @@ const createAndSavePerson = (done) => {
  //done(null /*, data*/);
 };
 
-const createManyPeople = (array, done) => {
-  const arrayOfPeople = [
-    {firstName: "Jo", lastName: "Amon"},
-    {firstName: "Jo",lastName: "Sawashiro"},
-    {firstName: "Ichiban", lastName: "Kasuga"}
-  ];
-  
-    Person.insertMany(array)
+const createManyPeople = (arrayOfPeople, done) => {
+    Person.insertMany(arrayOfPeople)
     .then(function (docs) {
         done(null, docs);
     })
@@ -49,16 +42,21 @@ const createManyPeople = (array, done) => {
 };
 
 const findPeopleByName = (personName, done) => {
-  
-  done(null /*, data*/);
+  Person.find({name: personName})
+    .then(people => done(null, people))
+    .catch(err => done(err));
 };
 
 const findOneByFood = (food, done) => {
-  done(null /*, data*/);
+  Person.findOne({favoriteFoods: food})
+    .then(person => done(null, person))
+    .catch(err => done(err));
 };
 
 const findPersonById = (personId, done) => {
-  done(null /*, data*/);
+  Person.findById(personId)
+    .then(person => done(null, person))
+    .catch(err => done(err));
 };
 
 const findEditThenSave = (personId, done) => {
